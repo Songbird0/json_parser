@@ -1,0 +1,18 @@
+[package]
+name = "json_parser"
+version = "0.1.0"
+authors = ["Freelancer"]
+edition = "2018"
+
+[lib]
+name = "json_parser_lib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "json_parser_bin"
+path = "src/main.rs"
+
+
+[dependencies.nom]
+version = "4.2.2"
+features = ["verbose-errors"]
