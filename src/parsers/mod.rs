@@ -1,21 +1,4 @@
-use nom::{is_alphanumeric, is_space};
-
-/*named!( pub empty_object<&[u8], (&[u8], &[u8])>,
-  dbg!( ws!( tuple!( tag!("{"), tag!("}") ) ) )
-);*/
-
-/*
-        complete!(
-          tuple!(
-            ws!(
-              tag!("{")
-            ),
-            ws!(
-              tag!("}")
-            )
-          )
-        )
-*/
+use nom::is_alphanumeric;
 
 pub fn empty_object(input: &[u8]) -> nom::IResult<&[u8], (&[u8], &[u8]), u32> {
     let (i, o) = try_parse!(
@@ -31,6 +14,17 @@ pub fn empty_object(input: &[u8]) -> nom::IResult<&[u8], (&[u8], &[u8]), u32> {
     Ok((i, o))
 }
 
-named!( pub string,
-  dbg!( delimited!( char!('"'), ws!( take_while!( is_alphanumeric ) ), char!('"') ) )
+// named!( pub string,
+//  dbg!( delimited!( char!('"'), ws!( take_while!( is_alphanumeric ) ), char!('"') ) )
+// );
+
+named!(pub string<&[u8], (char, &[u8], char)>,
+  dbg!(
+    do_parse!(
+      opening: char!('"') >>
+      content: ws!(take_while!(is_alphanumeric)) >>
+      ending: char!('"') >>
+      (opening, content, ending)
+    )
+  )
 );
