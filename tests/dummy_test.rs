@@ -20,7 +20,7 @@ fn dummy_test() {
             match ::std::dbg!( e ) {
                 nom::Err::Error(c) => {
                     match c {
-                        nom::Context::Code(a_list, e) => {
+                        nom::Context::Code(a_list, _) => {
                             ::std::dbg!( String::from_utf8_lossy( a_list ) );
                         },
                         nom::Context::List(vec) => {
