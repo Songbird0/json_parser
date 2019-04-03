@@ -22,7 +22,7 @@ named!(pub string<&[u8], (char, &[u8], char)>,
   dbg!(
     do_parse!(
       opening: char!('"') >>
-      content: ws!(take_while!(is_alphanumeric)) >>
+      content: take_until!("\"") >>
       ending: char!('"') >>
       (opening, content, ending)
     )
