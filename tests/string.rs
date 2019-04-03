@@ -50,30 +50,71 @@ fn alphanum_characters_only() {
 }
 
 #[test]
+fn begin_with_whitespace() {
+    let begin_with_whitespace = r#"" alphaonly""#;
+    generate_the_test(
+        json_parser_lib::parsers::string(begin_with_whitespace.as_bytes()),
+        &b""[..],
+        ('"', &b" alphaonly"[..], '"')
+    );
+}
+
+#[test]
+fn splitted() {
+    let splitted = r#"" a l p h a o n l y ""#;
+    generate_the_test(
+        json_parser_lib::parsers::string(splitted.as_bytes()),
+        &b""[..],
+        ('"', &b" a l p h a o n l y "[..], '"')
+    );
+}
+
+#[test]
+fn end_with_white_space() {
+    let end_with_white_space = r#""alphaonly ""#;
+    generate_the_test(
+        json_parser_lib::parsers::string(end_with_white_space.as_bytes()),
+        &b""[..],
+        ('"', &b"alphaonly "[..], '"')
+    );
+}
+
+#[test]
+fn trailing_whitespace() {
+    let trailing_whitespace = "\" alphaonly \n\"";
+    generate_the_test(
+        json_parser_lib::parsers::string(trailing_whitespace.as_bytes()),
+        &b""[..],
+        ('"', &b" alphaonly \n"[..], '"')
+    );
+}
+
+/*#[test]
 fn separated_by_whitespace() {
     let begin_with_whitespace = r#"" alphaonly""#;
     let splitted = r#"" a l p h a o n l y ""#;
     let end_with_white_space = r#""alphaonly ""#;
-    let trailing_whitespace = r#"" alphaonly \n""#;
+    let trailing_whitespace = "\" alphaonly \n\"";
 
     generate_the_test(
-      json_parser_lib::parsers::string(begin_with_whitespace.as_bytes()),
-      &b""[..],
-      ('"', &b"alphaonly"[..], '"')
+        json_parser_lib::parsers::string(begin_with_whitespace.as_bytes()),
+        &b""[..],
+        ('"', &b" alphaonly"[..], '"')
     );
     generate_the_test(
-      json_parser_lib::parsers::string(splitted.as_bytes()),
-      &b""[..],
-      ('"', &b"alphaonly"[..], '"')
+        json_parser_lib::parsers::string(splitted.as_bytes()),
+        &b""[..],
+        ('"', &b" a l p h a o n l y "[..], '"')
     );
     generate_the_test(
-      json_parser_lib::parsers::string(end_with_white_space.as_bytes()),
-      &b""[..],
-      ('"', &b"alphaonly"[..], '"')
+        json_parser_lib::parsers::string(end_with_white_space.as_bytes()),
+        &b""[..],
+        ('"', &b"alphaonly "[..], '"')
     );
     generate_the_test(
-      json_parser_lib::parsers::string(trailing_whitespace.as_bytes()),
-      &b""[..],
-      ('"', &b"alphaonly"[..], '"')
+        json_parser_lib::parsers::string(trailing_whitespace.as_bytes()),
+        &b""[..],
+        ('"', &b" alphaonly \n"[..], '"')
     );
 }
+*/
